@@ -1,0 +1,11 @@
+<div>
+    <div class="mid-box" :visible="isShow">
+        <h3>{{@title}} <a href="javascript:;" class="onClose" ms-click="@onClose"></a></h3>
+        <p><i ms-attr="{class:icon}"></i>{{@info}}</p>
+        <div class="confirm">
+            <a href="javascript:;" class="sure-btn" ms-click="@onConfirm">{{@btnMes}}</a>
+            <a href="javascript:;" class="can-btn" ms-click="@onClose" ms-visible="isCanShow">{{@btnCan}}</a>
+        </div>
+    </div>
+    <div class="pop-mask" :visible="isShow"></div>
+</div>
