@@ -1,0 +1,44 @@
+{
+  "code":0,
+  "data":{
+    "departmentList":[
+        {"id":3214,"name":"一厅","courtId":5488},
+        {"id":3514,"name":"三庭","courtId":5488}
+        {"id":3314,"name":"二厅","courtId":5488}
+        {"id":3414,"name":"一厅","courtId":5488}
+    ],
+    "roomList":[
+        {"id":5488,"name":"一厅","courtId":5488},
+        {"id":5488,"name":"第五法","courtId":5488}
+        {"id":3802,"name":"二厅","courtId":5488}
+        {"id":3414,"name":"第五法","courtId":5488}
+    ],
+    "wsCase":{
+        "beginTime":1486515600000,
+        "canceledReason":null,
+        "caseId":1072966,
+        "caseNo":"(2016)最高法民终796号",
+        "catalogId":1,
+        "courtCode":"0",
+        "courtId":5488,
+        "courtName":"最高人民法院",
+        "createTime":"1486363940000",
+        "departmentId":3476,
+        "departmentName":null,
+        "description":"海南大唐置业投资有限公司、王江孝与上海擎田企业管理有限公司与海南勤田实业有限公司、武汉波涛置业发展有限公司、海南凌锋置业有限公司、王凌锋 股权转让纠纷一案。",
+        "judgeList":[
+            {"name": "审判长", "value": "曹刚"}, 
+            {"name": "审判员", "value": "陈宏宇"}, 
+            {"name": "审判员", "value": "奚向阳"}
+        ],
+        "partyList":[
+            {"name": "上诉人", "value": "海南大唐置业投资有限公司、王江孝"},
+            {"name": "被上诉人", "value": "上海擎田企业管理有限公司"}
+        ],
+        "phrase":0,
+        "roomId":4228,
+        "roomName":"第一巡回法庭第一法庭",
+        "title":"股权转让纠纷"
+    }
+}
+}

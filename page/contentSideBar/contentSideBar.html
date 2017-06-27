@@ -1,0 +1,18 @@
+<div class="content-side-controller ms-controller" ms-controller="contentSideBar" style="height: 100%;">
+	<div class="content-side-bg content-manuscript-side-bg">
+	    <h1 class="title manuscript-title">第三方评价系统</h1>
+	    <ul class="title-content">
+	        <!-- <li class="on"><a href="#!/evaluateHome">三方评价首页</a></li>
+	        <li><a href="#!/myEvaluate">我的参评管理</a></li>
+	        <li><a href="#!/myComment">我的评论管理</a></li>	       	        
+	        <li :if="pow==1"><a href="#!/evaluateVerify">评价审核</a></li> -->
+	        <li class="on"><a :attr="{href:@PageHome}">三方评价首页</a></li>
+	        <li><a :attr="{href:@PageEvalute}">我的参评管理</a></li>
+	        <li><a :attr="{href:@PageComment}">我的评论管理</a></li>	       	        
+	        <li :if="pow==1"><a attr={href:@PageVerify}>评价审核</a></li>
+
+	    </ul>
+	</div>
+    <a href="#" class="icon-left-close" style="display: none"><img src="statics/images/icon-collapse-left.png"></a>
+    <a href="#" class="icon-left-open"><img src="statics/images/icon-collapse-right.png"></a>
+</div>

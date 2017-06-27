@@ -1,0 +1,80 @@
+<div ms-controller="evaluateDetail" class="case-detail">
+	<div class="public-header">
+		<span class="title">评价详情</span>
+		<a class="back" href="javascript:history.back();">返回</a>
+	</div>
+	<div class="main-area">
+		<div class="case-detail-info clearfix">
+			<!-- 三方评价 -->
+			<div class="three-evaluate" :visible="rusultShow">
+				<!-- 评价详情 -->
+				<div class="eva-case-info eva-detail clearfix">
+					<h1 class="eva-detail-title">{{evalDetailInfo.sfpjCase.wsCase.title}}<a href="#" class="eva-detail-more">查看全部评价</a></h1>
+					<div class="del-btn">删除评论</div>
+					<div class="user-info">
+						<img class="user-img" src="/statics/images/header-img-gray.png">
+						<span class="username">{{evalDetailInfo.user.name}}</span>
+						<span class="user-under">
+							<a>{{evalDetailInfo.user.userCourt.court.fullName}}</a>
+							<a>{{evalDetailInfo.user.userCourt.job.name}}</a>
+						</span>
+					</div>
+					<div class="case-cont">
+						<p>{{evalDetailInfo.content}}</p>
+					</div>
+					<div class="eva-domain">
+						<span class="discuss on">评论 <em></em></span>
+						<span class="share" :click =" showShrePanel(@evalDetailInfo.id)" style="position: relative;" >分享 <em></em>
+						<xmp ms-widget="[{is:'ms-share-for-list',$id:'shareEvaluateDetail'}]"></xmp>
+						</span>
+						<span class="agree"  :click="commentAdd($event,@evalDetailInfo.id)">点赞 <em>{{evalDetailInfo.priseCount}}</em></span>
+					</div>
+					<!-- 评价评论 -->
+					<xmp ms-widget="[{is:'ms-evalute',$id:'evaluateDetail-page'},{isEvaluteShow:false}]"></xmp>
+				</div>
+			</div>
+			<!-- 案件信息 -->
+			<div class="trial-case">
+				<div>
+					<h2>案件详情</h2>
+					<div class="case-info">
+						{{@evalDetailInfo.sfpjCase.wsCase.description | detailFormate}}
+						<!-- <div class="see-more"><a href="javascript:;">查看全部</a></div> -->
+					</div>
+				</div>
+				<div>
+					<h2>庭审信息</h2>
+					<div class="detail-info">
+						<h3>基本信息</h3>
+						<ul class="clearfix">
+							<li>
+								<span>案号</span>{{@evalDetailInfo.sfpjCase.wsCase.caseNo}}
+							</li>
+							<li>
+								<span>开庭时间</span>{{@evalDetailInfo.sfpjCase.wsCase.beginTime | date('yyyy-MM-dd HH:mm')}}
+							</li>
+							<li>
+								<span>案由</span>{{@evalDetailInfo.sfpjCase.wsCase.title}}
+							</li>
+							<li>
+								<span>庭审地点</span>{{@evalDetailInfo.sfpjCase.wsCase.locateCourtId}}
+							</li>
+						</ul>
+						<h3>审判组织成员</h3>
+						<ul class="clearfix">
+							<li>
+								<span>审判长</span>{{@evalDetailInfo.sfpjCase.wsCase.judge}}
+							</li>
+						</ul>
+						<h3>当事人</h3>
+						<ul class="clearfix">
+							<li>
+								<span>当事人</span>{{@evalDetailInfo.sfpjCase.wsCase.party}}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

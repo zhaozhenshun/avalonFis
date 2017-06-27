@@ -1,0 +1,80 @@
+<div ms-controller="evaluateVerify" class="evaluate-verify">
+	<div class="public-header">
+		<span class="title">评价审核</span>
+	</div>
+	<div class="main-area">
+		<div class="case-area">
+			<!-- tab -->
+			<div class="verify-area clearfix">
+				<ul class="verify-choice clearfix">
+					<li class="choice" :click="tabEvent(0)" :class="tabState(0)">待审核</li>
+					<li class="choice" :click="tabEvent(1)" :class="tabState(1)">已通过</li>
+					<li class="choice" :click="tabEvent(2)" :class="tabState(2)">未通过</li>
+				</ul>
+				<div class="verify-search">
+					<input type="text" class="verify-input" placeholder="请输入关键字" >
+				    <div class="verify-search-btn" :click="onSearch($event)">搜索</div>
+				</div>
+			</div>
+			<!-- content -->
+			<div class="choice-evaluate">
+				<ul>
+					<!-- 待审核 -->
+					<div class="none-data" :if="@showDataList.length == 0">暂无数据</div>
+					<li class="choice-case clearfix" :for="(index,evaluteMsg) in showDataList">
+						<div class="case-title">
+							<span class="tip">精选</span>
+							<h3 class="court-title">{{evaluteMsg.sfpjCase.wsCase.title}}</h3>
+							<span class="courtname">{{evaluteMsg.sfpjCase.courtName}}</span>
+							<span class="data" :if="state!=0">
+	                        	<a class="agree" href="javascript:;">{{evaluteMsg.sfpjCase.priseCount}}</a>
+	                        	<a class="discuss" href="javascript:;">{{evaluteMsg.sfpjCase.commentCount}}</a>
+	                        </span>
+						</div>
+						<div class="case-info">
+							<div class="user-info">
+								<img class="user-img" src="/statics/images/header-img.png">
+								<span class="username">{{evaluteMsg.sfpjCase.user.name}}</span>
+								<span class="user-under">
+									<a>{{evaluteMsg.sfpjCase.user.userCourt.court.fullName}}</a>
+									<a>{{evaluteMsg.sfpjCase.user.userCourt.job.name}}</a>
+								</span>
+							</div>
+							<div class="case-cont">
+								<p>{{evaluteMsg.content}}<a class="see-more" :click="jumpDetail(evaluteMsg.id)">[查看全部]</a></p>
+							</div>
+						</div>
+						<div class="verify-state" :if="state==0">
+							<span class="pass" :click="passEvaluteFun(evaluteMsg.id,true)">审核通过</span>
+							<span class="no-pass" :click="passEvaluteFun(evaluteMsg.id,false)">不通过</span>
+						</div>
+						<div class="verify-state" :if="state==1">
+							<span class="yes-pass">已通过</span>
+						</div>
+						<div class="verify-state" :if="state==2">							
+							<span class="not-pass">未通过</span>
+						</div>
+					</li>
+					
+				</ul>
+			</div>
+			<div class="public-pager" :if="totalCount>0">
+				<xmp ms-widget="[{is:'ms-pager',$id:'ms-pager-evaluateVerify'},@pageConfig]"></xmp>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- 弹框 -->
+<div ms-controller="layer-popBox" ms-visible="isShow">
+	<div class="layer-shadow"></div>
+	<div class="layer-area">
+		<span class="title">{{tips}}</span>
+		<span class="close-btn-ico" :click="cancelFun"></span>
+		<span class="warning-words">当前选择的审核状态为“{{tips}}”，请再次确认，确定后结果将无法修改！</span>
+		<div class="judge-btn">
+			<a class="yes" :click="sureFun">确定</a>
+			<a class="no"  :click="cancelFun">取消</a>
+		</div>
+	</div>
+</div>

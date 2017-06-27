@@ -1,0 +1,23 @@
+{
+  "name": "stub-inner-front",
+  "version": "1.0.0",
+  "description": "省平台，在法院安装的系统",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "avalon"
+  ],
+  "author": "xsy",
+  "license": "ISC",
+  "devDependencies": {
+     "fis-parser-node-sass": "^1.0.1",
+    "fis3-hook-amd": "^0.2.0",
+    "fis3-hook-commonjs": "^0.1.26",
+    "fis3-postpackager-loader": "^2.1.4",
+	"fis3-deploy-replace":"^*",
+	"fis3-deploy-local-deliver":"^*"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,8 @@
+
+<div class="write-dis" :visible="isRepalyShow">
+	<img class="user-img" src="/statics/images/header-img-gray.png">
+	<form class="evaluate-area">
+		<textarea class="dis-area" placeholder="写下您的评论内容..."  ms-duplex="comment" :keyup="onKeyup(@comment,500)" ></textarea>
+		<input type="button" class="submit-btn" value="提交" :click="submitCommit">
+	</form>
+</div>

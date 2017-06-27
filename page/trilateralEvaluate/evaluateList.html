@@ -1,0 +1,67 @@
+<div ms-controller="evaluateList" class="evaluate-index">
+	<div class="public-header">
+		<span class="title"><a href="#!/evaluateHome">热门参评案件</a></span>
+	</div>
+	<div class="main-area">
+		<!-- 条件查询 -->
+		<div class="condition-search">
+			<div class="case-select">
+				<span class="select-name">案件类型</span>
+				<div class="select-area">
+					<ul class="area-choice fix _catalog_type">
+						<li class="choice" :class="caseTypeState(0)" :click='caseTypeEvent(0)'>全部</li>	
+						<li class="choice" :class="caseTypeState(2)" :click='caseTypeEvent(2)'>刑事案件</li>	
+						<li class="choice" :class="caseTypeState(1)" :click='caseTypeEvent(1)'>民事案件</li>	
+						<li class="choice" :class="caseTypeState(6)" :click='caseTypeEvent(6)'>行政案件</li>	
+					</ul>
+				</div>
+			</div>
+			<div class="case-select">
+				<span class="select-name">法院级别</span>
+				<div class="select-area court">
+					<div class="area-choice fix" id="court_level">
+						<span class="choice" :class="courtTypeState(0)" :click='courtTypeEvent(0)'>全部</span>
+						<span class="choice" :class="courtTypeState(1)" :click='courtTypeEvent(1)'>最高法院</span>
+						<span class="choice" :class="courtTypeState(2)" :click='courtTypeEvent(2)'>高级法院</span>
+						<span class="choice" :class="courtTypeState(3)" :click='courtTypeEvent(3)'>中级法院</span>
+						<span class="choice" :class="courtTypeState(4)" :click='courtTypeEvent(4)'>基层法院</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 全国热门参评案件 -->
+		<div class="case-area">
+			<h3 class="title">全国热门参评案件<span class="total">共计<em>{{@totalCount}}</em>个案件</span></h3>
+			<div class="hot-evaluate">
+				<ul class="case-list clearfix">
+					<div class="none-data" :if="!@totalCount">暂无数据</div>
+					<li :for="(index,val) in caseList">
+						<div class="video-pic">
+	                        <a :attr="{href:'#!/caseDetail?caseId='+ @val.wsCase.caseId}" >
+	                            <img class="pic" :attr="{src:val.wsCase.videoThumbnail}" alt="">
+	                            <span class="video-bg-layer"></span>
+	                            <span class="video-layer"></span>
+	                        </a>
+	                    </div>
+	                    <div class="video-casename">
+	                        <a :attr="{href:'#!/caseDetail?caseId='+ @val.wsCase.caseId}">{{val.wsCase.caseNo}}</a>
+	                    </div>
+	                    <div class="video-courtname clearfix">
+	                    	<span class="courtname">
+	                            <a href="javascript:void(0);">{{val.courtName}}</a>
+	                        </span>
+	                        <span class="data">
+	                        	<a class="agree" href="javascript:void(0);">{{val.priseCount}}</a>
+	                        	<a class="discuss" href="javascript:void(0);">{{val.commentCount}}</a>
+	                        </span>
+	                    </div>
+					</li>
+					
+				</ul>
+			</div>
+			<div class="public-pager" :if="@totalCount>30">
+				<xmp ms-widget="[{is:'ms-pager',$id:'evaluateList-pager'},@pageConfig]"></xmp>
+			</div>
+		</div>
+	</div>
+</div>

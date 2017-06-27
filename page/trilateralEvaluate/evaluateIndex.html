@@ -1,0 +1,91 @@
+<!-- 三方评价首页 -->
+<div ms-controller="evaluateIndex" class="evaluate-index">
+	<div class="public-header">
+		<span class="title"><a href="#!/evaluateHome">三方评价首页</a></span>
+	</div>
+	<div class="main-area">
+		<div class="top-banner">
+			<ul class="banner-img">
+				<li><a href=""><img src="" alt="111"></a></li>
+				<li><a href=""><img src="" alt="222"></a></li>
+			</ul>
+			<ol class="banner-num">
+				<li class="on"></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ol>
+		</div>
+		<!-- 全国热门参评案件 -->
+		<div class="case-area">
+			<h3 class="title">全国热门参评案件<a class="more" href="#!/evaluateList">查看更多</a></h3>
+			<div class="hot-evaluate">
+				<ul class="area-choice clearfix">
+					<li class="choice" :class="caseTypeshow(0)" :click="caseTypeClick($event,0)">全部</li>
+					<li class="choice" :class="caseTypeshow(2)" :click="caseTypeClick($event,2)">刑事案件</li>
+					<li class="choice" :class="caseTypeshow(1)" :click="caseTypeClick($event,1)">民事案件</li>
+					<li class="choice" :class="caseTypeshow(6)" :click="caseTypeClick($event,6)">行政案件</li>
+				</ul>
+				<ul class="case-list clearfix">
+					<div class="none-data" :if="!@caseList">暂无数据</div>
+					<li ms-for="(index,caseInfo) in caseList">
+						<div class="video-pic">
+	                        <a :attr="{href:'#!/caseDetail?caseId='+ @caseInfo.wsCase.caseId}">
+	                        <!-- :attr="{src:caseInfo.wsCase.videoThumbnail}"  wsCase -->
+	                            <img class="pic" :attr="{src:caseInfo.wsCase.videoThumbnail}" alt="">
+	                            <span class="video-bg-layer"></span>
+	                            <span class="video-layer"></span>
+	                        </a>
+	                    </div>
+	                    <div class="video-casename">
+	                        <a :attr="{href:'#!/caseDetail?caseId='+ @caseInfo.wsCase.caseId}">{{caseInfo.wsCase.caseNo}}</a>
+	                    </div>
+	                    <div class="video-courtname clearfix">
+	                    	<span class="courtname">
+	                            <a>{{caseInfo.courtName}}</a>
+	                        </span>
+	                        <span class="data">
+	                        	<a class="agree" href="javascript:;">{{caseInfo.priseCount}}</a>
+	                        	<a class="discuss" href="javascript:;">{{caseInfo.commentCount}}</a>
+	                        </span>
+	                    </div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 精选评价 -->
+		<div class="case-area">
+			<h3 class="title">精选评价<a class="more" href="#!/cullingCaseList">查看更多</a></h3>
+			<div class="choice-evaluate">
+				<ul>
+					<div class="none-data" :if="@evaluateList.length == 0">暂无数据</div>
+					<li class="choice-case" ms-for="(index,evaluateInfo) in @evaluateList">
+						<div class="case-title">
+							<span class="tip">精选</span>
+							<h3 class="court-title">{{evaluateInfo.sfpjCase | formateSubTitle}}</h3>
+							<span class="courtname">{{@evaluateInfo.sfpjCase.courtName}}</span>
+							<span class="data">
+	                        	<a class="agree" href="javascript:;">{{evaluateInfo.sfpjCase.priseCount}}</a>
+	                        	<a class="discuss" href="javascript:;">{{evaluateInfo.sfpjCase.commentCount}}</a>
+	                        </span>
+						</div>
+						<div class="case-info">
+							<div class="user-info">
+								<img class="user-img" src="/statics/images/header-img.png">
+								<span class="username">{{@evaluateInfo.sfpjCase.user.name}}</span>
+								<span class="user-under">
+									<a>{{@evaluateInfo.sfpjCase.courtName}}</a>
+									<a>{{@evaluateInfo.sfpjCase.user.userCourt.job.name}}</a>
+								</span>
+							</div>
+							<div class="case-cont">
+								<p>{{@evaluateInfo.content}}<a class="see-more" :attr="{href:'#!/evaluateDetail?evalId='+ @evaluateInfo.id}">[查看全部]</a></p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,156 @@
+<div ms-controller="myEvaluate" class="">
+	<div class="public-header">
+		<span class="title">我的参评管理</span>
+	</div>
+	<div class="myeva-area">
+		<div class="myeva-top">
+			<div class="apply-btn" :click="showMyEvaPop">申请案件参评</div>
+			<div class="myeva-search">
+				<input type="text" class="myeva-input" :duplex="keyword" placeholder="请输入案件名称和案号" >
+			    <div class="myeva-search-btn" :click="searchCase">搜索</div>
+			</div>
+
+		</div>
+		<div class="myeva-list">
+			<ul class="myeva-list-nav" id="_caseList">
+				<li class="myeva-list-title myeva-list-li">
+					<ul>
+						<li class="li-two">开庭时间</li>
+						<li class="li-three">案件名称</li>
+						<li class="li-four">案号</li>
+						<li class="li-five">审理法院</li>
+						<li class="li-six">直播状态</li>
+						<li class="li-seven">申请状态</li>									
+						<li class="li-eight">评价数量</li>
+						<li class="li-nine">操作</li>
+					</ul>
+				</li>
+				<div class="none-data" :if="!@list">暂无数据</div>
+				<li class="myeva-list-li myeva-list-detail" :for="(i, el) in @list">
+					<ul>
+						<li class="li-one"><input type="checkbox" :attr="{value: el.caseId}" :click="checkOne($event)"></li>
+						<li class="li-two">{{@el.createTime | date('yyyy-MM-dd HH:mm')}}</li>
+						<li class="li-three">{{@el.wsCase.title}}</li>
+						<li class="li-four">{{@el.wsCase.caseNo}}</li>
+						<li class="li-five">{{@el.courtName}}</li>
+						<li class="li-six" :if="el.wsCase.liveState == 1">直播中</li>
+						<li class="li-six" :if="el.wsCase.liveState == 3">庭审回顾</li>
+						<li class="li-seven" :if="el.state == 0">审核中</li>
+						<li class="li-seven" :if="el.state == 1">已参评</li>
+						<li class="li-seven" :if="el.state == 2">不通过</li>
+						<li class="li-eight">{{@el.commentCount}}</li>
+						<li class="li-nine gray" :if="el.state==0 || el.state==2">
+							查看详情
+						<!-- <a :attr="{href: '#!/caseDetail?caseId=' + el.wsCase.caseId}" target="_blank">查看详情</a> -->
+						</li>
+						<li class="li-nine" :if="el.state==1">
+							<a :attr="{href: '#!/caseDetail?caseId=' + el.wsCase.caseId}" target="_blank">查看详情</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<div class="myeva-list-bottom " :if="@list.length > 0">
+				<div class="myeva-list-delete">
+					<input type="checkbox" id="_allChecked" name="" value="" :click="checkAll($event)">
+				  	<div class="delete-btn" :click='deleteCases'>删除</div>
+				</div>
+				<div class="public-pager" :controller="sfpjpage">
+					<xmp ms-widget="[{is:'ms-pager',$id:'myEvaluate-pager'},@pageConfig]"></xmp>
+				</div>
+
+				
+			</div>
+		</div>
+		<div class="pop-mask" :visible="@isShowPop" style="z-index:39"></div>
+		<div class="apply-case" :visible="@isShowPop">
+       		<div class="apply-case-top">
+				选择案件
+				<a :click="isShowPop=false"><img src="/statics/images/close-ico.png" alt=""></a>
+       		</div>
+       		<div class="apply-case-choose">
+       			<div class="choose-box">
+					<i class="choose-box-left">案件类型</i>
+					<ul class="choose-box-right">
+						<li :class="@tingshenCfg.liveState==null ? 'on':''" :click="@tingshenCfg.liveState=null" :click-2="tingShenSearch">全部</li>
+						<li :class="@tingshenCfg.liveState==1 ? 'on':''" :click="@tingshenCfg.liveState=1" :click-2="tingShenSearch">直播中</li>
+						<li :class="@tingshenCfg.liveState==3 ? 'on':''" :click="@tingshenCfg.liveState=3" :click-2="tingShenSearch">案件回顾</li>
+					</ul>
+       			</div>
+       			<div class="choose-box">
+					<i class="choose-box-left">开庭时间</i>
+					<div class="choose-box-right choose-date">
+						<input type="date" :duplex="@tingshenCfg.beginTime">
+						<input type="date" :duplex="@tingshenCfg.endTime">
+
+					</div>
+       			</div>
+       			<div class="choose-box">
+					<i class="choose-box-left">案件搜索</i>
+					<div class="choose-box-right choose-word">
+						<input type="text" name="" :duplex="@tingshenKeyword" placeholder="请输入关键字">
+						<a href="javascript:;" class="choose-word-btn" :click="tingShenSearch">搜索</a>
+					</div>
+       			</div>
+
+       		</div>
+       		<div class="choose-case-list">
+       			<ul class="myeva-list-nav">
+					<li class="myeva-list-title myeva-list-li">
+						<ul>					
+							<li class="li-one">开庭时间</li>
+							<li class="li-two">案件名称</li>
+							<li class="li-three">案号</li>						
+							<li class="li-four">状态</li>					
+							<li class="li-five">操作</li>
+
+						</ul>
+
+					</li>
+					<li class="myeva-list-li myeva-list-detail" :for="(i, el) in @tingShenCases">
+						<ul>
+							<li class="li-one">{{@el.beginTime | date('yyyy-MM-dd')}}</li>
+							<li class="li-two">{{@el.title}}</li>
+							<li class="li-three">{{@el.caseNo}}</li>						
+							<li class="li-four" :if="el.liveState==3">案件回顾</li>
+							<li class="li-four" :if="el.liveState==1">直播中</li>
+							<li class="li-five"><a href="javascript:;" :click="addSfpjCase(el.caseId, el.courtCode)">选择</a></li>
+
+						</ul>
+					</li>	
+					<!-- <li class="myeva-list-li myeva-list-detail">
+						<ul>
+							<li class="li-one">2017-5-5</li>
+							<li class="li-two">案件名称案件名案件名称案件名称案件名称称案件名称</li>
+							<li class="li-three">案案号案号案号案号号</li>						
+							<li class="li-four">案件回顾</li>					
+							<li class="li-five">选择</li>
+
+						</ul>
+					</li>
+					<li class="myeva-list-li myeva-list-detail">
+						<ul>
+							<li class="li-one">2017-5-5</li>
+							<li class="li-two">案件名称案件名案件名称案件名称案件名称称案件名称</li>
+							<li class="li-three">案案号案号案号案号号</li>						
+							<li class="li-four">案件回顾</li>					
+							<li class="li-five">选择</li>
+
+						</ul>
+					</li> -->
+				</ul>
+				<div class="choose-page-list" :controller="poppage">
+					<xmp ms-widget="[{is:'ms-pager',$id:'myEvaluate-pop-pager'},@PoppageConfig]" ></xmp>
+			    </div>
+       		</div>
+		 </div>
+			
+	</div>
+	<xmp ms-widget="[{is:'ms-smallbox',$id:'smallBox'},@config]"></xmp>
+	<div :controller="c_midbox">
+		<xmp ms-widget="[{is:'ms-midbox',$id:'midBox'},@config]"></xmp>
+	</div>
+</div>
+<!-- <div ms-controller="pop-small-box" class="ms-controller">
+  
+</div> -->

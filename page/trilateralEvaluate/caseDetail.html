@@ -1,0 +1,201 @@
+<div ms-controller="caseDetail" class="case-detail">
+	<div class="public-header">
+		<span class="title">案件详情</span>
+		<a class="back" href="javascript:history.back();">返回</a>
+	</div>
+	<div class="main-area">
+		<!-- <div class="sub-nav">
+			
+			<span>三方评价首页<em>&gt;</em>案件详情</span>
+		</div> -->
+		<div class="caseList-todayFocus">
+			<div class="todayFocus-title">
+				<span class="title">{{caseInfoDetail.wsCase.caseNo}}</span>
+			</div>
+			<!-- 视频播放 -->
+			<div class="todayFocus-video">
+				<div class="video-play">
+					<!-- 录像 -->
+					<iframe :attr="{src: 'http://player.videoincloud.com/vod/' + caseInfoDetail.wsCase.videoId}" width="100%" height="100%" frameborder="0" scrolling="no" :if="@caseInfoDetail.wsCase.videoId > 0 && @caseInfoDetail.wsCase.videoState == 2"></iframe>
+
+					<!-- 直播 -->
+					<iframe :attr="{src: 'http://player.videoincloud.com/vod/' + caseInfoDetail.wsCase.liveId}" width="100%" height="100%" frameborder="0" scrolling="no" :if="@caseInfoDetail.wsCase.videoId <= 0 && @caseInfoDetail.wsCase.liveState == 1"></iframe>
+				</div>
+				<div class="video-case">
+					<div class="case-sub-title">
+						<span>其他参评案件</span>
+					</div>
+					<div class="case-list on">
+						<a href="javascript:void(0);">
+							<div class="case-img">
+								<img class="pic" :attr="{src: @caseInfoDetail.wsCase.videoThumbnail}" />
+								<div class="case-state">
+									<span class="state-tip"><em class="play-icon"></em>直播中</span>
+								</div>
+							</div>
+							<div class="case-info">
+								<h3 :attr="{title: @caseInfoDetail.wsCase.title}">{{caseInfoDetail.wsCase.caseNo}}</h3>
+								<p class="court-name">{{caseInfoDetail.courtName}}</p>
+							</div>
+						</a>
+					</div>
+					<div class="case-list case-list2" :for="wsCase in @caseInfoDetail.wsCases">
+						<a :attr="{href: '#!/caseDetail?caseId=' + @wsCase.caseId}">
+							<div class="case-img">
+								<img class="pic" :attr="{src: @wsCase.videoThumbnail}" />
+								<div class="case-state">
+									<span class="state-tip"><em class="play-icon"></em></span>
+								</div>
+							</div>
+							<div class="case-info">
+								<h3 :attr="{title: @wsCase.title}">{{@wsCase.caseNo}}</h3>
+								<p class="court-name">{{@wsCase.courtName}}</p>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="video-info">
+				<ul>
+		            <li class="collect clearfix">
+		                <a href="javascript:;" :class="onAgreeState()" class="agree" :click="agreeAdd($event)">{{caseInfoDetail.priseCount}}</a>
+		            </li>
+		            <li class="share">
+		            	<xmp ms-widget="[{is:'ms-share',$id:'shareSDK'},shareConfig]"></xmp>
+		             <!--    <div class="share-box clearfix" style="display:none;">
+		                	<span class="word">分享</span>
+			                <a href="javascript:;" target="_blank" class="share-sina"></a>
+			                <a href="javascript:;" class="share-wx">
+			                	<div class="public-qr-code _qr_code_area">
+									<span class="triangle"><i></i><em></em></span>
+									<div class="qr-title">微信扫一扫</div>
+									<div class="qr-img _wechat_img"><canvas width="88" height="88"></canvas></div>
+								</div>
+			                </a>
+			                <a href="javascript:;" target="_blank" class="share-qq"></a>
+		                </div> -->
+		            </li>
+		            <li class="which-clear">
+		            	<div class="clear-box">
+		            		<span>清晰吗?</span>
+			            	<a href="javascript:;"  :class="clearState(0)" :click="clearSelect($event,0)">看不清</a>
+			            	<a href="javascript:;"  :class="clearState(1)" :click="clearSelect($event,1)">很清楚</a>
+		            	</div>
+		            </li>
+		            <li class="which-slow">
+			            <div class="slow-box">
+		            		<span>流畅吗?</span>
+			            	<a href="javascript:;" :class="slowState(0)" class="cry _so_slow" :click="slowSelect($event,0)">卡</a>
+			            	<a href="javascript:;" :class="slowState(1)" class="_so_fast" :click="slowSelect($event,1)">不卡</a>
+			            </div>
+		            </li>
+		        </ul>
+			</div>
+		</div> 
+		<div class="case-detail-info clearfix">
+			<!-- 三方评价 -->
+			<div class="three-evaluate">
+				<div>
+					<h2>第三方评价</h2>
+					<form class="evaluate-area">
+						<textarea class="area" placeholder="请写下您对本次庭审直播的看法..." ms-duplex="@evaluteContent" :keyup="onKeyup(@evaluteContent,800)"></textarea>
+						<input type="submit" class="submit-btn" disabled="true" :if="@caseInfoDetail.evaluate.state==0" value="评价审核中">
+						<input type="submit" class="submit-btn" disabled="true" :if="@caseInfoDetail.evaluate.state==1" value="已发布">
+						<input type="submit" class="submit-btn" :if="@caseInfoDetail.evaluate==null" :click="evaluteSubmit(@caseInfoDetail.caseId,@caseInfoDetail.courtCode)" value="提交">
+						<input type="submit" class="submit-btn" :if="@caseInfoDetail.evaluate.state==2" :click="evaluteSubmit(@caseInfoDetail.caseId,@caseInfoDetail.courtCode)" value="提交">
+					</form>
+				</div>
+				<div class="eva-case-info clearfix" :for="evaluateInfo in caseEvaluateList" data-for-rendered="onRender">
+					<div class="del-btn"  :click="deletEvalute(evaluateInfo.id)">删除评论</div>
+					<div class="user-info">
+						<img class="user-img" src="/statics/images/header-img-gray.png">
+						<span class="username">{{evaluateInfo.user.userCourt.court.fullName}}</span>
+						<span class="user-under">
+							<a>{{evaluateInfo.user.userCourt.court.fullName}}</a>
+							<a>{{evaluateInfo.user.userCourt.job.name}}</a>
+						</span>
+					</div>
+					<div class="case-cont">
+						<p>{{evaluateInfo.content}}</p>
+					</div>
+					<div class="eva-domain">
+						<span class="discuss" :click-1="commentShow($event,@evaluateInfo.id,@evaluateInfo.courtCode,@evaluateInfo.userId)">评论 <em>({{evaluateInfo.evalCount}})</em></span>
+						<span class="share" :click="showShrePanel(@evaluateInfo.id)" style="position: relative;">分享<em></em>
+							<xmp ms-widget="[{is:'ms-share-for-list',$id:'sharelist'+@evaluateInfo.id}]"></xmp>
+						</span>
+						
+						<span class="agree"   :click="commentAdd($event,@evaluateInfo.id)">点赞 <em>({{evaluateInfo.priseCount}})</em></span>
+					</div>
+					<!-- 评价评论 -->
+					<xmp ms-widget="[{is:'ms-evalute',$id:'evalute'+@evaluateInfo.id},{isEvaluteShow:false}]"></xmp>
+				</div>
+				<div class="up-more" :if="@pageConfig.totalPages > 1" :click=""><a>查看更多</a></div>
+				<!-- 显示分享 -->
+				
+			</div>
+			<!-- 案件信息 -->
+			<div class="trial-case">
+				<div>
+					<h2>案件详情</h2>
+					<div class="case-info">
+						{{caseInfoDetail.wsCase.description | detailFormate}}
+						<!-- <div class="see-more"><a href="javascript:;">查看全部</a></div> -->
+					</div>
+				</div>
+				<div>
+					<h2>庭审信息</h2>
+					<div class="detail-info">
+						<h3>基本信息</h3>
+						<ul class="clearfix">
+							<li>
+								<span>案号</span>{{caseInfoDetail.wsCase.caseNo}}
+							</li>
+							<li>
+								<span>开庭时间</span>{{caseInfoDetail.wsCase.beginTime | date('yyyy-mm-dd HH:mm')}}
+							</li>
+							<li>
+								<span>案由</span>{{caseInfoDetail.wsCase.title}}
+							</li>
+							<li>
+								<span>庭审地点</span>{{caseInfoDetail.wsCase.locateCourtId}}
+							</li>
+						</ul>
+						<h3>审判组织成员</h3>
+						<ul class="clearfix">
+							<li>
+								<span>审判长</span>{{caseInfoDetail.wsCase.judge}}
+							</li>
+						</ul>
+						<h3>当事人</h3>
+						<ul class="clearfix">
+							<li>
+								<span>当事人</span>{{caseInfoDetail.wsCase.party}}
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div>
+					<h2>该法官其他案件</h2>
+					<div class="case-other">
+						<ul>
+							<li class="clearfix" :for="el in @caseInfoDetail.otherCases">
+								<div class="case-pic">
+									<a :attr="{href: '#!/caseDetail?caseId=' + @el.caseId}">
+										<img class="pic" :attr="{src: @el.videoThumbnail}">
+										<span class="bg-layer"></span>
+	                            		<span class="layer"></span>
+									</a>
+								</div>
+								<a class="case-title" :attr="{href: '#!/caseDetail?caseId=' + @el.caseId}">{{el.title}}</a>
+								<p class="courtname">{{el.courtName}}</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div :controller="c_midbox">
+		<xmp ms-widget="[{is:'ms-midbox',$id:'midBox-caseDetail'},@config]"></xmp>
+	</div>
+</div>

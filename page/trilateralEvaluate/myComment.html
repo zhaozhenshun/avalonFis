@@ -1,0 +1,143 @@
+<div ms-controller="myComment" class="">
+	<div class="public-header">
+		<span class="title">我的评价管理</span>
+	</div>
+	<!-- (<i></i>)条 -->
+	<div class="mycom-area">
+		<ul class="mycom-area-tab">
+			<li :click="tabEvent($event,1)" :class="tabState(1)">收到的评论</li>
+			<li :click="tabEvent($event,2)" :class="tabState(2)">发出的评论</li>
+		</ul>
+		<!-- 收到的评价 -->
+		<div class="get-comment" :if="@tabType == 1">
+			<div class="none-data" :if="@reviceEvalist.length == 0">暂无数据</div>
+			<div class="mycom-list"  :for="reciverInfo in reviceEvalist">
+				
+				<div class="mycom-list-content">
+					<div class="mycom-list-box mycom-list-top">
+
+						<img src="/statics/images/header-ico.png" alt="" class="mycom-icon">
+						<b class="mycom-name">{{reciverInfo.user.name}}</b><b>:</b>
+						<span class="mycom-cotent">{{reciverInfo.content}}</span>
+						<i class="mycom-date">{{reciverInfo.createTime | date('yyyy-MM-dd HH:mm')}}</i>
+
+
+					</div>
+					<div class="mycom-list-box mycom-list-center">
+						<img src="/statics/images/header-ico.png" alt="" class="mycom-icon">
+						<b class="mycom-name">{{reciverInfo.comment.user.name}}</b><b>:</b>
+						<span class="mycom-cotent">{{reciverInfo.comment.content}}</span>
+						<i class="mycom-date">{{reciverInfo.comment.createTime | date('yyyy-MM-dd HH:mm')}}</i>
+
+					</div>
+					<div class="mycom-list-bottom">
+						<ul>
+							<li :click="showDialogView(reciverInfo.userId, reciverInfo.commentUserId)">
+								<img src="/statics/images/talk-ico.png" alt="">
+								<b>查看对话</b>
+
+							</li>
+							<li :click="showCommitView($event)">
+								<img src="/statics/images/write-ico.png" alt="">
+								<b>回复</b>
+
+							</li>
+
+						</ul>
+						
+					</div>
+					
+
+				</div>
+				<div class="mycon-reply" style="display: none">
+					<img src="/statics/images/header-ico.png" alt="">
+					<input type="text" placeholder="请输入您的回复内容..." class="mycon-reply-inp">
+					<button class="mycon-reply-btn" :click="replayCommitFun($event,reciverInfo.comment.caseId,reciverInfo.comment.evalId,reciverInfo.comment.courtCode,reciverInfo.id,reciverInfo.parentCommentId,reciverInfo.userId)">提交</button>
+				</div>
+			</div>
+			<div class="mycom-page-list" :controller="pagerGet" :if="totalCount>10">
+				<div id="pagerGet"></div>
+				<xmp ms-widget="[{is:'ms-pager',$id:'myComment-pager-get'},@rconfig]"></xmp>
+			</div>
+			
+
+
+		</div>
+		<!-- 对话框 -->
+		<div class="apply-case" :visible="@popshow">
+       		<div class="apply-case-top">
+				查看对话
+				<img src="/statics/images/close-ico.png" :click="closeBox" alt="">
+       		</div>
+       		<div class="talk-content">
+       			<div class="talk-list" :for="d in @dialogues">
+       				<div class="talk-list-left">
+       					<div class="talk-date">
+							{{d.createTime | date('MM-dd')}}<br>
+							{{d.createTime | date('HH:mm')}}
+       					</div>
+       					<b class="talk-line"></b>
+
+       				</div>
+       				<div class="talk-list-center">
+						<img src="/statics/images/header-ico.png" alt="" class="mycom-icon">
+						<b class="mycom-name">{{d.user.name}}</b><b>:</b>
+
+       				</div>
+       				<div class="talk-list-right">
+       					<span class="mycom-cotent">{{d.content}}</span>
+       				</div>
+
+       			</div>
+       		</div>
+       		
+       	
+		</div>
+		<!-- 发出的评价 -->
+		<div class="get-comment send-comment" :if="@tabType == 2">
+		<div class="none-data" :if="@sendCommentsList.length == 0">暂无数据</div>
+			<div class="mycom-list" :for="sendInfo in sendCommentsList">
+				
+				<div class="mycom-list-content">
+					<div class="mycom-list-box mycom-list-top">
+						<img src="/statics/images/header-ico.png" alt="" class="mycom-icon">
+						<b class="mycom-name">{{@sendInfo.comment.user.name}}</b><b>:</b>
+						<span class="mycom-cotent">{{@sendInfo.comment.content}}</span>
+						<i class="mycom-date">{{@sendInfo.comment.createTime | date('yyyy-MM-dd HH:mm')}}</i>
+
+					</div>
+					<div class="mycom-list-box mycom-list-center">
+						<img src="/statics/images/header-ico.png" alt="" class="mycom-icon">						
+						<b class="mycom-name">{{@sendInfo.user.name}}</b><b>:</b>
+						<span class="mycom-cotent">{{@sendInfo.content}}</span>
+						<i class="mycom-date">{{@sendInfo.createTime | date('yyyy-MM-dd HH:mm')}}</i>
+					</div>
+					<div class="mycom-list-bottom">
+						<ul class="sendcom-list-bottom">
+							<li :click="deleteSendInfo(sendInfo.id)">删除对话</li>
+
+						</ul>
+						
+					</div>
+					
+
+				</div>
+				
+			</div>
+			<xmp ms-widget="[{is:'ms-midbox',$id:'midBox'},@config]"></xmp>
+			
+			<div class="mycom-page-list" :controller="pageSend" :if="totalCount > 10">
+				<div id ="pageSend">
+				<xmp ms-widget="[{is:'ms-pager',$id:'myComment-pager-send'},@sconfig]"></xmp>
+			</div>
+			
+
+
+		</div>
+
+
+
+	
+	</div>
+	
+</div>

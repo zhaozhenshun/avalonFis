@@ -1,0 +1,72 @@
+<div ms-controller="cullingCaseList" class="evaluate-index">
+	<div class="public-header">
+		<span class="title"><a href="#!/evaluateHome">精选评价</a></span>
+	</div>
+	<div class="main-area">
+		<!-- 条件查询 -->
+		<div class="condition-search">
+			<!-- <div class="case-select">
+				<span class="select-name">案件类型</span>
+				<div class="select-area">
+					<ul class="area-choice fix _catalog_type">
+						<li class="choice" :class="caseTypeState(0)" :click='caseTypeEvent(0)'>全部</li>	
+						<li class="choice" :class="caseTypeState(2)" :click='caseTypeEvent(2)'>刑事案件</li>	
+						<li class="choice" :class="caseTypeState(1)" :click='caseTypeEvent(1)'>民事案件</li>	
+						<li class="choice" :class="caseTypeState(6)" :click='caseTypeEvent(6)'>行政案件</li>	
+					</ul>
+				</div>
+			</div> -->
+			<div class="case-select">
+				<span class="select-name">法院级别</span>
+				<div class="select-area court">
+					<div class="area-choice fix" id="court_level">
+						<span class="choice" :class="courtTypeState(0)" :click='courtTypeEvent(0)'>全部</span>
+						<span class="choice" :class="courtTypeState(1)" :click='courtTypeEvent(1)'>最高法院</span>
+						<span class="choice" :class="courtTypeState(2)" :click='courtTypeEvent(2)'>高级法院</span>
+						<span class="choice" :class="courtTypeState(3)" :click='courtTypeEvent(3)'>中级法院</span>
+						<span class="choice" :class="courtTypeState(4)" :click='courtTypeEvent(4)'>基层法院</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 精选评价 -->
+		<div class="case-area">
+			<h3 class="title">精选评价</h3>
+			<div class="choice-evaluate">
+				<ul>
+					<div class="none-data" :if="!@totalCount">暂无数据</div>
+					<li class="choice-case" :for="(index,evaluateInfo) in evaluateList" >
+						<div class="case-title">
+							<span class="tip">精选</span>
+							<h3 class="court-title">{{evaluateInfo.sfpjCase | sfpjCaseFormatData }}</h3>
+							<span class="courtname">{{ evaluateInfo.sfpjCase.courtName }}</span>
+							<span class="data">
+	                        	<a class="agree" href="javascript:;">{{evaluateInfo.sfpjCase.priseCount}}</a>
+	                        	<a class="discuss" href="javascript:;">{{evaluateInfo.sfpjCase.commentCount}}</a>
+	                        </span>
+						</div>
+						<div class="case-info">
+							<div class="user-info">
+								<img class="user-img" src="/statics/images/header-img.png">
+								<span class="username">{{evaluateInfo.sfpjCase.user.name}}</span>
+								<span class="user-under">
+								<!-- 所属法院所属法院所属法院 -->
+									<a>{{evaluateInfo.sfpjCase.user.userCourt.court.fullName}}</a>
+									<!-- 所属职位 -->
+									<a>{{evaluateInfo.sfpjCase.user.userCourt.job.name}}</a>
+								</span>
+							</div>
+							<div class="case-cont">
+								<p>{{evaluateInfo.content}}<a class="see-more" :attr="{href:'#!/evaluateDetail?evalId='+ @evaluateInfo.id}">[查看全部]</a></p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="public-pager" :if="@totalCount>0">
+				<xmp ms-widget="[{is:'ms-pager',$id:'cullingCaseList-pager'},@pageConfig]"></xmp>
+			</div>
+		</div>
+
+	</div>
+</div>

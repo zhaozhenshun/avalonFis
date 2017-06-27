@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <meta name="renderer" content="webkit" />
+      <link rel="shortcut icon" href="/front-widget/static/image/favorite.ico" type="image/x-icon" />
+      <meta name="viewport" content="width=device-width, initial-scale=0">
+      <title>智慧法院</title>
+      <script src="../../front-jslib/require.js" type="text/javascript"></script>
+      <script src="../../front-jslib/json3.min.js" type="text/javascript"></script>
+      <script src="../../front-jslib/reqService.js" type="text/javascript"></script>
+      <script src="../../statics/js/sfpjService.js" type="text/javascript"></script>
+      <link rel="stylesheet" href="../../front-widget/static/css/public.scss">
+      <link rel="stylesheet" href="../../statics/css/main.scss">
+      <style type="text/css">
+            .ms-controller {
+                  visibility: hidden
+            }
+      </style>
+</head>
+
+<body ms-controller="index_page" class="ms-controller">
+
+      <!-- top banner -->
+      <xmp ms-widget="{is:'topbanner'}"></xmp>
+
+      <div class="box">
+            <!-- side bar -->
+            <xmp ms-widget="{is:'sidebar'}"></xmp>
+
+            <!-- content -->
+            <div class="content">
+                  <!-- content side bar -->
+                  <xmp ms-widget="{is:'contentSideBar'}"></xmp>
+
+                  <!-- content main -->
+                  <div class="content-main" ms-html="@view"></div>
+            </div>
+
+
+      </div>
+      <xmp ms-widget="{is:'ms-smallbox',$id:'msg-pop-box'}"></xmp>
+      <xmp ms-widget="[{is:'ms-midbox',$id:'msg-mid-box'},{}]"></xmp>
+      <script src="index.js" type="text/javascript"></script>
+</body>
+
+</html>

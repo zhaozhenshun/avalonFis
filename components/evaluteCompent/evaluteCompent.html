@@ -1,0 +1,41 @@
+
+<div class="evaulate-discuss" ms-visible="@isEvaluteShow">
+			<div class="write-dis">
+				<img class="user-img" src="/statics/images/header-img-gray.png">
+				<form class="evaluate-area">
+					<textarea class="dis-area" placeholder="写下您的评论内容..." :duplex="@evalContent" :keyup="onKeyup(@evalContent,500)"></textarea>
+					<input type="submit" class="submit-btn" :click="evaluteSubmit($event)" value="提交">
+				</form>
+			</div>
+			<div class="other-eva-list">
+				<div class="other-eva clearfix"   ms-for="commentInfo in @commitList">
+					<div class="eva-user-info">
+						<img class="user-img" src="/statics/images/header-img-gray.png">
+						<span class="user-name">{{commentInfo.user.name}}:</span>
+						<span class="user-dis">{{commentInfo.content}}</span>
+					</div>
+					<div class="eva-user-oper">
+						<span class="dis-time">{{commentInfo.createTime | date('yyyy-MM-dd HH:mm')}}</span>
+						<span class="dis-reply" :click="replayChildCommit(commentInfo.id,commentInfo.userId,commentInfo.id)" :click-2="onShowReplayCommit(@commentInfo.id)">回复<em>({{commentInfo.commentCount}})</em></span>
+						<span class="dis-delete" :click="deleteCommit(commentInfo.id)">删除</span>
+					</div>
+				
+					<div class="reply-eva clearfix" :for="childCommitInfo in @commentInfo.comments">
+						<div class="reply-eva-info">
+							<img class="user-img" src="/statics/images/header-img-gray.png">
+							<span class="user-name">
+								{{childCommitInfo.user.name}}:
+								<span class="user-dis">{{childCommitInfo.content}}</span>
+							</span>
+						</div>
+						<div class="reply-eva-oper">
+							<span class="dis-time">{{childCommitInfo.createTime | date('yyyy-MM-dd HH:mm')}}</span>
+							<span class="dis-reply" :click="replayChildCommit(@childCommitInfo.id,childCommitInfo.userId,commentInfo.id)" :click-2="onShowReplayCommit(@commentInfo.id)">回复<em>({{childCommitInfo.commentCount}})</em></span>
+						</div>
+					</div>
+					<xmp ms-widget="[{is:'ms-replayCommit',$id:'replayCommit'+@commentInfo.id},@commentConfig]"></xmp>
+				</div>
+				
+				
+			</div>
+</div>
