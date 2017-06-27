@@ -1,0 +1,17 @@
+<div class="nav ms-controller" ms-css="{width: isOpen ? '180px' : '50px'}" ms-controller="sidebar">
+    <a href="javascript:;" ms-attr="{class: isOpen ? 'nav-btn nav-open' : 'nav-btn nav-hide'}"><i></i></a>
+    <ul class="nav-ul">
+        <li ms-for="(index,val) in @navList" data-for-rendered ="@render">
+            <a ms-attr="{'data-id':val.id,href: val.id == 4 ? val.url :'javascript:;'}" class="li-btn" ms-click="setMenuCookie(val.id, val.id)"><i ms-attr="{class:val.id == @parentId ? 'arr-r arr-b' :'arr-r'}"></i><span>{{val.name}}</span></a>
+            <ul class="nav-ul-1" ms-attr="{style:val.id == @parentId ? 'display:block' :'display:none'}">
+                <li ms-for="(i,key) in navList[index].children">
+                    <a ms-on-click="@menuRight(key.id, key.url,val.id)" href="javascript:;" ms-attr="{'data-id':key.id}" ms-class="key.id == @menuId ? 'on' : '' "><img ms-attr="{src:key.image}" alt=""><span>{{key.name}}</span></a>
+                    <em class="title"><b></b>{{key.name}}</em>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!-- <div ms-controller="sidebar-box" class="ms-controller">
+  <xmp ms-widget="[{is:'ms-smallbox',$id:'sidebarBox'},@config]"></xmp>
+</div> -->

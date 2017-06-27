@@ -1,0 +1,79 @@
+<div class="header" ms-controller="topbanner">
+    <div class="header-l">
+        <a :attr="{href:@platformBaseUrl + '/#!/main/home'}"></a>
+    </div>
+    <div class="header-r">
+        <ul class="clearfix">
+            <li :mouseover="mouseover($event)" :mouseout="mouseout($event)">
+                <a>{{@userName}}<i class="arr-b"></i><span class="arrow-down-icon"></span></a>
+                <div class="person-select-area" :if="@role == 1">
+                    <div class="person-select">
+                        <div class="type-one">
+                            <a :attr="{href:@platformBaseUrl + '/#!/acc/p/pInfo'}">
+                                <span class="person-info-icon"></span><p>个人信息</p>
+                            </a>
+                        </div>
+                        <div class="type-one">
+                            <a :attr="{href:@platformBaseUrl + '/#!/acc/p/pIdentify'}">
+                                <span class="person-id-icon"></span><p>身份验证绑定</p>
+                            </a>
+                        </div>
+                        <div class="type-one">
+                            <a :attr="{href:@platformBaseUrl + '/#!/acc/p/pwdEdit'}">
+                                <span class="account-set-icon"></span><p>账号管理</p>
+                            </a>
+                        </div>
+                    </div>
+                    <a class="back-out" href="javascript:;">退出</a>
+                </div>
+                <div class="person-select-area court-select" :if="@role == 0">
+                    <div class="person-select">
+                        <div class="type-one">
+                            <a :attr="{href:@platformBaseUrl + '/#!/acc/c/info'}">
+                                <span class="person-info-icon"></span><p>法院信息</p>
+                            </a>
+                        </div>
+                        <div class="type-one">
+                            <a :attr="{href:@platformBaseUrl + '/#!/acc/c/user/userList'}">
+                                <span class="person-id-icon"></span><p>本院用户管理</p>
+                            </a>
+                        </div>
+                        <div class="type-one">
+                            <a :attr="{href:@platformBaseUrl + '/#!/acc/c/certify'}">
+                                <span class="person-org-icon"></span><p>调解机构及用户</p>
+                            </a>
+                        </div>
+                        <div class="type-one">
+                            <a :attr="{href:@platformBaseUrl + '/#!/acc/c/manager/info'}">
+                                <span class="account-set-icon"></span><p>账号管理</p>
+                            </a>
+                        </div>
+                    </div>
+                    <a class="back-out" href="javascript:;">退出</a>
+                </div>
+            </li>
+            <li :if="@role == 1" :mouseover="mouseover($event)" :mouseout="mouseout($event)">
+                <a href="#"><i class="mes"></i>消息<em>{{messageNum}}</em></a>
+                <div class="mes-area">
+                    <ul>
+                        <li ms-for="(index,val) in messageList">
+                            <a :if="@val.sourceType == 0" :attr="{href: @platformBaseUrl +'/#!/messageCenter/0/0'}" >
+                                <div class="tit">{{val.title}}</div>
+                                <p>{{val.createTime | date('yyyy-mm-dd HH:mm')}}</p>
+                            </a>
+                            <a :if="@val.sourceType != 0" :attr="{href: @platformBaseUrl +'/#!/messageCenter/-1/0'}" >
+                                <div class="tit">{{val.title}}</div>
+                                <p>{{val.createTime | date('yyyy-mm-dd HH:mm')}}</p>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                    <a class="check-out" :attr="{href: @platformBaseUrl+'/#!/messageCenter/0/0'}">查看更多</a>
+                </div>
+            </li>
+            <li>
+                <a href="#"><i class="help"></i>帮助中心</a>
+            </li>
+        </ul>
+    </div>
+</div>
